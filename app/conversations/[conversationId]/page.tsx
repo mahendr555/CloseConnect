@@ -13,10 +13,11 @@ const ConversationId = async ({ params }: { params: IParams }) => {
   const conversation = await getConversationById(params.conversationId);
   const messages = await getMessages(params.conversationId);
 
+  // If conversation does not exist, show EmptyState
   if (!conversation) {
     return (
       <div className="lg:pl-80 h-full">
-        <div className="h-full flex flex-col">
+        <div className="h-full flex flex-col justify-center items-center">
           <EmptyState />
         </div>
       </div>
@@ -26,8 +27,13 @@ const ConversationId = async ({ params }: { params: IParams }) => {
   return (
     <div className="lg:pl-80 h-full">
       <div className="h-full flex flex-col">
+        {/* Conversation Header */}
         <Header conversation={conversation} />
+
+        {/* Messages Body */}
         <Body initialMessages={messages} />
+
+        {/* Input Form */}
         <Form />
       </div>
     </div>

@@ -24,25 +24,28 @@ const MessageBox: React.FC<MessageBoxProps> = ({ isLast, data }) => {
     .map((user) => user.name)
     .join(', ');
 
-  // dynamic classes
-  const container = clsx('flex gap-3 p-4', isOwn && 'justify-end');
-  const avatar = clsx(isOwn && 'order-2');
-  const body = clsx('flex flex-col gap-2', isOwn && 'items-end');
-  const message = clsx(
-    'text-sm w-fit overflow-hidden',
+  // Dynamic class assignment for styling
+  const containerClass = clsx('flex gap-3 p-4', isOwn && 'justify-end');
+  const avatarClass = clsx(isOwn && 'order-2');
+  const bodyClass = clsx('flex flex-col gap-2', isOwn && 'items-end');
+  const messageClass = clsx(
+    'text-sm w-fit overflow-hidden shadow-md',
     isOwn ? 'bg-cyan-500 text-white' : 'bg-gray-100',
     data.image ? 'rounded-md p-0' : 'rounded-full py-2 px-3'
   );
 
   return (
-    <div className={container}>
-      <div className={avatar}>
+    <div className={containerClass}>
+      {/* Avatar */}
+      <div className={avatarClass}>
         <Avatar user={data.sender} />
       </div>
 
-      <div className={body}>
+      {/* Message body */}
+      <div className={bodyClass}>
+        {/* Sender info */}
         <div className="flex items-center gap-1">
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-gray-500 font-semibold">
             {data.sender?.name || data.sender?.email}
           </div>
           <div className="text-xs text-gray-400">
@@ -50,7 +53,8 @@ const MessageBox: React.FC<MessageBoxProps> = ({ isLast, data }) => {
           </div>
         </div>
 
-        <div className={message}>
+        {/* Message content */}
+        <div className={messageClass}>
           <ImageModal
             isOpen={isImageModalOpen}
             src={data.image}
@@ -62,24 +66,23 @@ const MessageBox: React.FC<MessageBoxProps> = ({ isLast, data }) => {
               src={data.image}
               width={288}
               height={288}
-              alt="image"
-              className="object-cover cursor-pointer hover:scale-110 transition translate"
+              alt="Sent Image"
+              className="object-cover cursor-pointer transition-transform transform hover:scale-110"
             />
           ) : (
             <div>{data.body}</div>
           )}
         </div>
 
-        {
-          // show seen list if last message
-          isLast && isOwn && seenList && (
-            <div className="text-xs font-light text-gray-500">
-              Seen by {seenList}
-            </div>
-          )
-        }
+        {/* Seen List */}
+        {isLast && isOwn && seenList && (
+          <div className="text-xs font-light text-gray-500 mt-1">
+            Seen by {seenList}
+          </div>
+        )}
       </div>
     </div>
   );
 };
+
 export default MessageBox;

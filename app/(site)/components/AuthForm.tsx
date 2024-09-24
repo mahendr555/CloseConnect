@@ -5,7 +5,7 @@ import Input from '@/app/components/input/Input';
 import { useState, useCallback, useEffect } from 'react';
 import { useForm, FieldValues, SubmitHandler } from 'react-hook-form';
 import AuthSocialButton from './AuthSocialButton';
-import { BsGithub, BsGoogle, BsTwitter } from 'react-icons/bs';
+import { BsGoogle } from 'react-icons/bs';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { signIn, useSession } from 'next-auth/react';
@@ -72,7 +72,7 @@ const AuthForm = () => {
           }
 
           if (res?.ok && !res?.error) {
-            toast.success('Entering Nexus!');
+            toast.success('Entering CloseConnect!');
             router.push('/users');
           }
         })
@@ -92,7 +92,7 @@ const AuthForm = () => {
         }
 
         if (res?.ok && !res?.error) {
-          toast.success('Entering Nexus!');
+          toast.success('Entering CloseConnect!');
         }
       })
       .finally(() => setIsLoading(false));
@@ -136,7 +136,7 @@ const AuthForm = () => {
           </div>
         </form>
 
-        {/* Social Login Buttons */}
+        {/* Google Login Button */}
         <article className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
@@ -145,23 +145,15 @@ const AuthForm = () => {
 
             <div className="relative flex justify-center text-sm">
               <span className="bg-white px-2 text-gray-500">
-                Or continue with
+                Or continue with Google
               </span>
             </div>
           </div>
 
-          <div className="mt-6 flex gap-2">
-            <AuthSocialButton
-              icon={BsGithub}
-              onClick={() => socialAction('github')}
-            />
+          <div className="mt-6 flex justify-center">
             <AuthSocialButton
               icon={BsGoogle}
               onClick={() => socialAction('google')}
-            />
-            <AuthSocialButton
-              icon={BsTwitter}
-              onClick={() => socialAction('twitter')}
             />
           </div>
         </article>
@@ -171,7 +163,7 @@ const AuthForm = () => {
           <span>
             {variant === 'REGISTER'
               ? 'Already have an account?'
-              : 'New to Nexus?'}
+              : 'New to CloseConnect?'}
           </span>
           <button
             type="button"
@@ -185,4 +177,5 @@ const AuthForm = () => {
     </section>
   );
 };
+
 export default AuthForm;

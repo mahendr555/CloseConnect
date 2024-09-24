@@ -24,7 +24,7 @@ const Body: React.FC<BodyProps> = ({ initialMessages }) => {
 
   useEffect(() => {
     pusherClient.subscribe(conversationId);
-    bottomRef?.current?.scrollIntoView();
+    bottomRef?.current?.scrollIntoView({ behavior: 'smooth' });
 
     const messageHandler = (message: FullMessageType) => {
       axios.post(`/api/conversations/${conversationId}/seen`);
@@ -34,7 +34,7 @@ const Body: React.FC<BodyProps> = ({ initialMessages }) => {
         return [...prevMessages, message];
       });
 
-      bottomRef?.current?.scrollIntoView();
+      bottomRef?.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
     const updateMessageHandler = (newMessage: FullMessageType) => {
@@ -52,12 +52,12 @@ const Body: React.FC<BodyProps> = ({ initialMessages }) => {
     return () => {
       pusherClient.unsubscribe(conversationId);
       pusherClient.unbind('messages:new', messageHandler);
-      pusherClient.bind('messages:update', updateMessageHandler);
+      pusherClient.unbind('messages:update', updateMessageHandler);
     };
   }, [conversationId]);
 
   return (
-    <div className="flex-1 overflow-y-auto">
+    <div className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
       {messages.map((message, i) => (
         <MessageBox
           isLast={i === messages.length - 1}
